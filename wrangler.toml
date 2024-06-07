@@ -1,3 +1,4 @@
 name = "news-feed-filter-server"
 main = "index.js"
 compatibility_date = "2022-05-03"
+compatibility_flags = [ "streams_enable_constructors", "transformstream_enable_standard_constructor"]

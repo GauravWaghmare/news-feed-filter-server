@@ -8,7 +8,8 @@
 		"test": "vitest"
 	},
 	"dependencies": {
-		"itty-router": "^2.6.1"
+		"itty-router": "^2.6.1",
+		"replicate": "^0.30.1"
 	},
 	"devDependencies": {
 		"wrangler": "^3.0.0"

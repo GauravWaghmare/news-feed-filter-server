@@ -1,5 +1,5 @@
 import { Router } from 'itty-router';
-import { isTweetPolitical } from './replicate_client';
+import { isTweetPolitical, isTweetBelongToCategory } from './replicate_client';
 
 // Create a new router
 const router = Router();
@@ -38,6 +38,27 @@ router.post('/classify', async request => {
 		// For now, just return the tweetText in the response
 		const isPolitical = await isTweetPolitical(tweetText)
 		let response = new Response(JSON.stringify({ tweetText, isPolitical }), { status: 200 })
+		return addCorsHeaders(response)
+	} catch (error) {
+		let response = new Response(JSON.stringify({ error: error.message }), { status: 500 })
+		return addCorsHeaders(response)
+	}
+})
+
+router.post('v2/classify', async request => {
+	// Create a base object with some fields.
+	try {
+		const { tweetText, selectedOptions } = await request.json()
+
+		if (!tweetText) {
+			let response = new Response(JSON.stringify({ error: 'Missing tweetText' }), { status: 400 })
+			return addCorsHeaders(response)
+		}
+
+		// Handle the tweetText (e.g., call your isTweetPolitical function)
+		// For now, just return the tweetText in the response
+		const result = await isTweetBelongToCategory(tweetText, selectedOptions)
+		let response = new Response(JSON.stringify({ belongsToCategory: result }), { status: 200 })
 		return addCorsHeaders(response)
 	} catch (error) {
 		let response = new Response(JSON.stringify({ error: error.message }), { status: 500 })

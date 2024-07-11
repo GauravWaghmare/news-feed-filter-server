@@ -28,3 +28,22 @@ export async function isTweetPolitical (tweetText) {
 	}
 }
 
+export async function isTweetBelongToCategory(tweetText, selectedOptions) {
+	input.prompt = tweetText
+	input.prompt_template = "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nCan the following text be categorised as atleast one of the following topics - " + selectedOptions.toString() + ". Answer strictly with either a yes or no." + "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+	for await (const event of replicate.stream("meta/meta-llama-3-70b-instruct", { input })) {
+		let result;
+		result = event.toString().trim().replace(/[^a-zA-Z ]/g, "").toUpperCase();
+		if (result.includes("YES")) {
+			return true
+		}
+		if (result.includes("NO")) {
+			return false
+		}
+		function checkCategoryInText(value, index, array) {
+			return result.includes(value.toUpperCase())
+		}
+		return selectedOptions.some(checkCategoryInText)
+	}
+}
+

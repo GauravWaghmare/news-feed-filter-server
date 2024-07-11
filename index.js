@@ -45,7 +45,7 @@ router.post('/classify', async request => {
 	}
 })
 
-router.post('v2/classify', async request => {
+router.post('/v2/classify', async request => {
 	// Create a base object with some fields.
 	try {
 		const { tweetText, selectedOptions } = await request.json()

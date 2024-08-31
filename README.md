@@ -1,31 +1,66 @@
-## Template: worker-router
+# Text Category Classifier API using Cloudflare Workers and LLM
 
-[![Deploy with Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/workers-sdk/tree/main/templates/worker-router)
+This project implements an HTTP API endpoint hosted on Cloudflare Workers that uses a Large Language Model (LLM) to determine if a given piece of text belongs to a specific category. The LLM inference is powered by Replicate.com.
 
-This template demonstrates using the [`itty-router`](https://github.com/kwhitley/itty-router) package to add routing to your Cloudflare Workers.
+## Features
 
-[`index.js`](https://github.com/cloudflare/worker-template-router/blob/master/index.js) is the content of the Workers script.
+- Hosted on Cloudflare Workers for scalability and low-latency
+- Uses `itty-router` for efficient request routing
+- Integrates with Replicate.com for LLM-based text classification
+- Provides a simple API endpoint for text category checking
 
-## Setup
+## Usage
 
-To create a `my-project` directory using this template, run:
+1. Clone this repository or use it as a template for your Cloudflare Worker project.
 
-```sh
-$ npx wrangler generate my-project worker
-# or
-$ yarn wrangler generate my-project worker
-# or
-$ pnpm wrangler generate my-project worker
+2. Install dependencies:
+   ```sh
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+3. Set up your Replicate API token as an environment variable:
+   ```sh
+   export REPLICATE_API_TOKEN=your_api_token_here
+   ```
+   You can also add this to your `.env` file or set it in your Cloudflare Workers dashboard.
+
+4. Update the `wrangler.toml` file with your Cloudflare account ID and other necessary configuration.
+
+5. Test your worker locally:
+   ```sh
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
+   ```
+
+6. Deploy your worker to Cloudflare:
+   ```sh
+   npm run deploy
+   # or
+   yarn deploy
+   # or
+   pnpm deploy
+   ```
+
+## API Endpoint
+
+The main API endpoint is:
+
+`POST /v2/classify`
+
+Request body:
+
+```
+{
+    "tweetText": "A quick brown fox jumps over the lazy dog.",
+    "selectedOptions": ["kids", "adult", "wildlife"]
+}
 ```
 
-Before publishing your code you need to edit `wrangler.toml` file and add your Cloudflare `account_id` - more information about configuring and publishing your code can be found [in the documentation](https://developers.cloudflare.com/workers/learning/getting-started).
 
-Once you are ready, you can publish your code by running the following command:
-
-```sh
-$ npm run deploy
-# or
-$ yarn run deploy
-# or
-$ pnpm run deploy
-```

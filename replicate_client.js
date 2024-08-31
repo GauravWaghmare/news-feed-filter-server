@@ -1,7 +1,7 @@
 import Replicate from "replicate";
 
 const replicate = new Replicate({
-	auth: "***REMOVED***",
+	auth: process.env.REPLICATE_API_TOKEN,
 });
 
 var input = {
